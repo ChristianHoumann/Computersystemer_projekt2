@@ -1,0 +1,76 @@
+SUB Rx Rx Rx
+SUB Ry Ry Ry
+LI Rmax 20
+
+JEQ ?? Rx Rmax
+JEQ ?? Ry Rmax
+
+MULT Rin Rmax Ry
+ADD Rin Rin Rx
+ADDI Rout Rin 400
+
+// Processin border pixel
+LI Rc0 0
+JGT 17 Rx Rc0
+SD Rc0 Rout
+JR ???
+JGT 20 Ry Rc0
+SD Rc0 Rout
+JR ???
+
+LI Rc1 19
+
+JGT 26 Rc1 Ry
+SD Rc0 Rout
+JR ???
+JGT 29 Rc1 Rx
+SD Rc0 Rout
+JR ???
+
+//procession
+LD Rc2 Rin
+JGT 35 Rc2 Rc0
+SD Rc0 Rout
+JR ???
+
+
+
+
+//
+LD Rout Rout
+LD Rin Rin
+
+
+4x4
+
+0 0 0 0
+0 1 1 0
+0 1 1 1
+1 1 1 1
+
+We need see appendix A:
+LI
+SUB
+JEQ
+JGT
+MULT
+ADDI
+SD
+
+
+Assembly:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
