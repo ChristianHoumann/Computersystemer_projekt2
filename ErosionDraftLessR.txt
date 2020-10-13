@@ -1,0 +1,94 @@
+
+LI Rmaxloop 3       // Til for-loop grænse
+LI Rmax 4           // Til at bruge i output og lave edges sorte
+LI Rx 0             // Starting værdi af x
+LI Ry 0             // Starting værdi af y
+JEQ 69 Ry Rmax      // Ry er nået max så vi inkrementerer Rx
+LI R0 0             // Nul-variabel at sammenligne med
+MULT Rmemoryin Rmax Ry  // Finder værdien i plads (Rx,Ry) i memory
+ADD Rmemoryin Rmemoryin Rx
+LD Rin Rmemoryin      // Rin er værdien. Rmemory er addressen i memory
+    /////////////////// This part did not work as intended but jumped at every input /////////////////////////
+JEQ 17 Rx R0         // Hvis Rx/Ry ikke er på randen jumper vi videre
+JEQ 17 Rx Rmaxloop   // -||-
+JEQ 17 Ry R0         // -||-
+JEQ 17 Ry Rmaxloop   // -||-
+JR 23
+//LI Rout 0            // Hvis vi er i randen laver vi den sort
+ADDI Rmemoryout Rmemoryin 16
+SD R0 Rmemoryout
+ADDI Ry Ry 1
+JR 6                 // Ry er inkrementeret og vi jumper
+
+JGT 31 Rin R0        // Hvis pixel ikke er sort jumper vi til erodering processen
+//LI Rout 0
+ADDI Rmemoryout Rmemoryin 16
+SD R0 Rmemoryout
+ADDI Ry Ry 1
+JR 6
+
+// Erodering processen (Når pixel er hvid)
+SUBI Rtemp Rx 1
+MULT Rmemoryout Rmax Ry
+ADD Rmemoryout Rmemoryout Rtemp
+LD Rtemp Rmemoryout 
+JEQ 57 Rtemp R0    // Jumper til erodering hvis (Rx-1,Ry) er 0
+
+ADDI Rtemp Rx 1
+MULT Rmemoryout Rmax Ry
+ADD Rmemoryout Rmemoryout Rtemp
+LD Rtemp Rmemoryout 
+JEQ 57 Rtemp R0    // Jumper til erodering hvis (Rx+1,Ry) er 0
+
+SUBI Rtemp Ry 1
+MULT Rmemoryout Rmax Rtemp
+ADD Rmemoryout Rmemoryout Rx
+LD Rtemp Rmemoryout 
+JEQ 57 Rtemp R0    // Jumper til erodering hvis (Rx,Ry-1) er 0
+
+ADDI Rtemp Ry 1
+MULT Rmemoryout Rmax Rtemp
+ADD Rmemoryout Rmemoryout Rx
+LD Rtemp Rmemoryout 
+JEQ 57 Rtemp R0    // Jumper til erodering hvis (Rx,Ry+1) er 0
+
+JR 63
+
+//LI Rout 0
+ADDI Rmemoryout Rmemoryin 16
+SD R0 Rmemoryout
+ADDI Ry Ry 1
+JR 6
+
+LI R0 255
+ADDI Rmemoryout Rmemoryin 16
+SD R0 Rmemoryout
+ADDI Ry Ry 1        // y for-loopet er kørt helt igennem
+JR 6                // Inkrementerer Ry og jumper 
+
+ADDI Rx Rx 1        // Inkrementerer x
+JEQ 73 Rx Rmax       // programmet er færdig-kørt. Jumper til END
+JR 5                // Jumper til der vi nulstiller Ry
+
+END
+
+
+Using 9 registers
+
+4x4
+
+in
+
+0 0 1 0
+0 1 1 1
+0 1 1 1
+1 1 1 1
+
+out
+
+0 0 0 0
+0 0 1 0
+0 0 1 0
+0 0 0 0
+
+
