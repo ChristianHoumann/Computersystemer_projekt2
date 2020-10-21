@@ -22,8 +22,9 @@ SD R0 Rmemoryout
 ADDI Ry Ry 1
 JR 6                 // Ry er inkrementeret og vi jumper
 
+LI R0 255
 ADDI Rmax Rmax 1
-JGT 33 Rin R0        // Hvis pixel ikke er sort jumper vi til erodering processen
+JEQ 34 Rin R0        // Hvis pixel ikke er sort jumper vi til erodering processen
 //LI Rout 0
 ADDI Rmemoryout Rmemoryin 16
 SD R0 Rmemoryout
@@ -31,31 +32,32 @@ ADDI Ry Ry 1
 JR 6
 
 // Erodering processen (Når pixel er hvid)
+LI R0 0
 SUBI Rtemp Rx 1
 MULT Rmemoryout Rmax Ry
 ADD Rmemoryout Rmemoryout Rtemp
 LD Rtemp Rmemoryout 
-JEQ 60 Rtemp R0    // Jumper til erodering hvis (Rx-1,Ry) er 0
+JEQ 62 Rtemp R0    // Jumper til erodering hvis (Rx-1,Ry) er 0
 
 ADDI Rtemp Rx 1
 MULT Rmemoryout Rmax Ry
 ADD Rmemoryout Rmemoryout Rtemp
 LD Rtemp Rmemoryout 
-JEQ 60 Rtemp R0    // Jumper til erodering hvis (Rx+1,Ry) er 0
+JEQ 62 Rtemp R0    // Jumper til erodering hvis (Rx+1,Ry) er 0
 
 SUBI Rtemp Ry 1
 MULT Rmemoryout Rmax Rtemp
 ADD Rmemoryout Rmemoryout Rx
 LD Rtemp Rmemoryout 
-JEQ 60 Rtemp R0    // Jumper til erodering hvis (Rx,Ry-1) er 0
+JEQ 62 Rtemp R0    // Jumper til erodering hvis (Rx,Ry-1) er 0
 
 ADDI Rtemp Ry 1
 MULT Rmemoryout Rmax Rtemp
 ADD Rmemoryout Rmemoryout Rx
 LD Rtemp Rmemoryout 
-JEQ 60 Rtemp R0    // Jumper til erodering hvis (Rx,Ry+1) er 0
+JEQ 62 Rtemp R0    // Jumper til erodering hvis (Rx,Ry+1) er 0
 
-JR 66
+JR 68
 
 //LI Rout 0
 ADDI Rmemoryout Rmemoryin 16
@@ -70,7 +72,7 @@ ADDI Ry Ry 1        // y for-loopet er kørt helt igennem
 JR 6                // Inkrementerer Ry og jumper 
 
 ADDI Rx Rx 1        // Inkrementerer x
-JEQ 76 Rx Rmax       // programmet er færdig-kørt. Jumper til END
+JEQ 78 Rx Rmax       // programmet er færdig-kørt. Jumper til END
 JR 5                // Jumper til der vi nulstiller Ry
 
 END
