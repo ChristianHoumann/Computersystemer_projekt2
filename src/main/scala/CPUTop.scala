@@ -28,12 +28,53 @@ class CPUTop extends Module {
   val alu = Module(new ALU())
 
   //Connecting the modules
-  //programCounter.io.run := io.run
-  //programMemory.io.address := programCounter.io.programCounter
+  programCounter.io.run := io.run
+  programMemory.io.address := programCounter.io.programCounter
 
   ////////////////////////////////////////////
   //Continue here with your connections
   ////////////////////////////////////////////
+
+  //// instruction split
+  controlUnit.io.opcode := programMemory.io.instructionRead(31,28)
+  registerFile.io.writeSel := programMemory.io.instructionRead(27,25)
+  registerFile.io.aSel := programMemory.io.instructionRead(24,22)
+  registerFile.io.aSel := programMemory.io.instructionRead(21,19)
+
+  val intermediate: UInt = programMemory.io.instructionRead(15,0)
+  val extendedIntermediate: UInt = Cat(0.U(16.W), intermediate)
+
+  //// ControlUnit outputs
+  io.done := controlUnit.io.`end`
+  // branch
+  val branch: Bool = (controlUnit.io.branch && alu.io.zero)
+  programCounter.io.jump := branch
+  programCounter.io.programCounterJump := intermediate
+
+  //rest
+  registerFile.io.writeEnable := controlUnit.io.regwrite
+  dataMemory.io.writeEnable := controlUnit.io.writeEnable
+
+  alu.io.sel := controlUnit.io.aluop
+  //ALU
+  alu.io.input1 := registerFile.io.a
+  when (controlUnit.io.alusrc) {
+    alu.io.input2 := extendedIntermediate
+  }.otherwise {
+    alu.io.input2 := registerFile.io.b
+  }
+
+  //registerfile memory
+  when (controlUnit.io.memtoreg) {
+    registerFile.io.writeData := dataMemory.io.dataRead
+  }.otherwise {
+    registerFile.io.writeData := alu.io.result
+  }
+
+  //data memory
+  dataMemory.io.address := alu.io.result
+  dataMemory.io.dataWrite := registerFile.io.b
+
 
   //This signals are used by the tester for loading the program to the program memory, do not touch
   programMemory.io.testerAddress := io.testerProgMemAddress
