@@ -39,13 +39,14 @@ class CPUTop extends Module {
   controlUnit.io.opcode := programMemory.io.instructionRead(31,28)
   registerFile.io.writeSel := programMemory.io.instructionRead(27,25)
   registerFile.io.aSel := programMemory.io.instructionRead(24,22)
-  registerFile.io.aSel := programMemory.io.instructionRead(21,19)
+  registerFile.io.bSel := programMemory.io.instructionRead(21,19)
 
   val intermediate: UInt = programMemory.io.instructionRead(15,0)
-  val extendedIntermediate: UInt = Cat(0.U(16.W), intermediate)
+  val extendedIntermediate: SInt = (Cat(0.S(16.W), intermediate)).asSInt()
 
   //// ControlUnit outputs
   io.done := controlUnit.io.`end`
+  programCounter.io.stop := controlUnit.io.`end` //NOT SURE ABOUT THIS ONE!
   // branch
   val branch: Bool = (controlUnit.io.branch && alu.io.zero)
   programCounter.io.jump := branch
@@ -66,14 +67,14 @@ class CPUTop extends Module {
 
   //registerfile memory
   when (controlUnit.io.memtoreg) {
-    registerFile.io.writeData := dataMemory.io.dataRead
+    registerFile.io.writeData := (dataMemory.io.dataRead).asSInt()
   }.otherwise {
     registerFile.io.writeData := alu.io.result
   }
 
   //data memory
-  dataMemory.io.address := alu.io.result
-  dataMemory.io.dataWrite := registerFile.io.b
+  dataMemory.io.address := (alu.io.result).asUInt()
+  dataMemory.io.dataWrite := (registerFile.io.b).asUInt()
 
 
   //This signals are used by the tester for loading the program to the program memory, do not touch
