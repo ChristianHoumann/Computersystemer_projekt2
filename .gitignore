@@ -48,3 +48,7 @@ project/target/streams/runtime/internalDependencyClasspath/_global/streams/
 target/scala-2.12/
 
 target/
+
+.idea/uiDesigner.xml
+
+.idea/misc.xml
