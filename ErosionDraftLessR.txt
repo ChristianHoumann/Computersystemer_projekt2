@@ -3,7 +3,7 @@ LI Rmax 4           // Til at bruge i output og lave edges sorte
 LI Rx 0             // Starting værdi af x
 
 LI Ry 0             // Starting værdi af y
-JEQ 69 Ry Rmax      // Ry er nået max så vi inkrementerer Rx
+JEQ 74 Ry Rmax      // Ry er nået max så vi inkrementerer Rx
 LI R0 0             // Nul-variabel at sammenligne med
 MULT Rmemoryin Rmax Ry  // Finder værdien i plads (Rx,Ry) i memory
 ADD Rmemoryin Rmemoryin Rx
