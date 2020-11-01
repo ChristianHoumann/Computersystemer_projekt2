@@ -68,13 +68,16 @@ class CPUTop extends Module {
   //registerfile memory
   when (controlUnit.io.memtoreg) {
     registerFile.io.writeData := (dataMemory.io.dataRead).asSInt()
+    val writeDataRegisterFile = (dataMemory.io.dataRead).asSInt()
   }.otherwise {
     registerFile.io.writeData := alu.io.result
+    val writeDataRegisterFile = (dataMemory.io.dataRead).asSInt()
   }
 
   //data memory
   dataMemory.io.address := (alu.io.result).asUInt()
   dataMemory.io.dataWrite := (registerFile.io.b).asUInt()
+  val writeDataDataMemory = (registerFile.io.b).asUInt()
 
 
   //This signals are used by the tester for loading the program to the program memory, do not touch
