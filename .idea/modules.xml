@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Computersystemer_projekt2.computersystemer_projekt2.iml" filepath="$PROJECT_DIR$/.idea/modules/Computersystemer_projekt2.computersystemer_projekt2.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/computersystemer_projekt2.iml" filepath="$PROJECT_DIR$/.idea/modules/computersystemer_projekt2.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/computersystemer_projekt2-build.iml" filepath="$PROJECT_DIR$/.idea/modules/computersystemer_projekt2-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/project.computersystemer_projekt2-build.iml" filepath="$PROJECT_DIR$/.idea/modules/project.computersystemer_projekt2-build.iml" />
     </modules>
   </component>
 </project>

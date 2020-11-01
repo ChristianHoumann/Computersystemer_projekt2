@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ScalaCompilerConfiguration">
     <profile name="sbt 1" modules="computersystemerassignment2_8326" />
-    <profile name="sbt 2" modules="computersystemer_projekt2,computersystemerassignment2">
+    <profile name="sbt 2" modules="Computersystemer_projekt2.computersystemer_projekt2,computersystemer_projekt2,computersystemerassignment2">
       <parameters>
         <parameter value="-Xsource:2.11" />
       </parameters>
