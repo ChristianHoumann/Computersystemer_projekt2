@@ -17,11 +17,12 @@ class ALU extends Module {
   io.zero := false.B
   switch (io.sel) {
     is ("b001".U) {
-      //val addVal =
+      //a
       io.result := io.input1 + io.input2
       io.zero := ( io.input1+io.input2 === 0.S(32.W) )
     }
     is ("b010".U) {
+      //S
       io.result := io.input1-io.input2
       io.zero := ( io.input1-io.input2 === 0.S(32.W) )
     }

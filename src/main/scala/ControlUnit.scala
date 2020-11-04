@@ -6,7 +6,6 @@ class ControlUnit extends Module {
     //Define the module interface here (inputs/outputs)
     val opcode = Input(UInt(4.W))
     val branch = Output(Bool())
-    //val memread = Output(Bool())
     val memtoreg = Output(Bool())
     val aluop = Output(UInt(3.W))
     val writeEnable = Output(Bool())
@@ -18,7 +17,6 @@ class ControlUnit extends Module {
 
   //Implement this module here
   io.branch := false.B
-  //val memread = Output(Bool())
   io.memtoreg := false.B
   io.aluop := 0.U(3.W)
   io.writeEnable := false.B
